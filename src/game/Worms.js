@@ -207,23 +207,34 @@ const Worms = () => {
     }, [update, drawWorm, changeDirection, generateFood, food, isPlaying]);
 
     return (
-        <div style={{ textAlign: 'center', padding: '20px' }}>
-        <canvas 
-            ref={canvasRef} 
-            width={canvasWidth} 
-            height={canvasHeight}
-            style={{ 
-                border: '2px solid #333',
-                borderRadius: '5px',
-                boxShadow: '0 0 10px rgba(0,0,0,0.1)'
-            }}
-        />
-        {!isPlaying && !gameOver && (
-            <div style={{ marginTop: '20px' }}>
-                Press Space to Start
-            </div>
-        )}
-    </div>
+        <div style={{ textAlign: 'center' }}>
+            <canvas 
+                ref={canvasRef} 
+                width={canvasWidth} 
+                height={canvasHeight}
+                style={{ 
+                    border: '2px solid #333',
+                    borderRadius: '5px',
+                    boxShadow: '0 0 10px rgba(0,0,0,0.1)'
+                }}
+            />
+            {/* 게임 시작 안내 문구를 검은 배경 위에 표시 */}
+            {!isPlaying && !gameOver && (
+                <div style={{ 
+                    position: 'absolute', 
+                    top: '50%', 
+                    left: '50%', 
+                    transform: 'translate(-50%, -50%)', 
+                    backgroundColor: 'rgba(0, 0, 0, 0.8)', 
+                    color: '#fff', 
+                    padding: '20px', 
+                    borderRadius: '10px',
+                    textAlign: 'center'
+                }}>
+                    Press Space to Start
+                </div>
+            )}
+        </div>
     );
 };
 
