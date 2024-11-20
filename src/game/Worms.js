@@ -37,8 +37,9 @@ const Worms = () => {
 
     const generateFood = useCallback(() => {
         const availablePositions = [];
-        for (let x = 0; x < canvasWidth; x += foodSize) {
-            for (let y = 0; y < canvasHeight; y += foodSize) {
+        // 먹이가 화면 밖으로 나가지 않도록 범위 조정
+        for (let x = 0; x < canvasWidth - foodSize; x += foodSize) {
+            for (let y = 0; y < canvasHeight - foodSize; y += foodSize) {
                 if (!worm.some(segment => segment.x === x && segment.y === y)) {
                     availablePositions.push({ x, y });
                 }
