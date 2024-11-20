@@ -11,7 +11,7 @@ const Worms = () => {
     const [isPopupOpen, setIsPopupOpen] = useState(false);
     
     const canvasWidth = 800;
-    const canvasHeight = 800;
+    const canvasHeight = 700;
     const segmentSize = 20;
     const foodSize = 40;
     const gameSpeedRef = useRef(100); // 초기 속도를 더 빠르게 설정
