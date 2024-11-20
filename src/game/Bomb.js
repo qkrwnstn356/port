@@ -83,7 +83,7 @@ const Bomb = () => {
         setGameOver(false);
         setMinesLeft(minesCount);
         setFlagged(new Set());
-    }, []);
+    }, []); // 빈 의존성 배열
 
     useEffect(() => {
         initializeGame(); // 컴포넌트가 마운트될 때 게임 초기화

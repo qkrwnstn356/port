@@ -115,9 +115,7 @@ const Worms = () => {
             y: worm[0].y + direction.y * segmentSize 
         };
     
-        // 벽에 부딪히면 방향을 바꾸지 않도록 수정
         if (head.x < 0 || head.x >= canvasWidth || head.y < 0 || head.y >= canvasHeight) {
-            // 벽에 부딪혔을 때는 방향을 바꾸지 않고 업데이트를 종료
             return;
         }
     
@@ -130,16 +128,16 @@ const Worms = () => {
         if (food && 
             Math.abs(head.x - food.x) < foodSize && 
             Math.abs(head.y - food.y) < foodSize) {
-            newWorm = [head, ...worm]; // 먹이를 먹으면 지렁이 길이 증가
+            newWorm = [head, ...worm];
             setScore(prev => prev + 10);
             generateFood();
-            gameSpeedRef.current = Math.max(100, gameSpeedRef.current - 10); // 속도를 조금 더 빠르게 조정
+            gameSpeedRef.current = Math.max(100, gameSpeedRef.current - 10);
         } else {
-            newWorm = [head, ...worm.slice(0, -1)]; // 먹이를 먹지 않으면 꼬리 제거
+            newWorm = [head, ...worm.slice(0, -1)];
         }
     
         setWorm(newWorm);
-    }, [worm, direction, food, generateFood, gameOver, isPlaying, score, checkCollision]);
+    }, [worm, direction, food, generateFood, gameOver, isPlaying, checkCollision]); // score 제거
 
     const changeDirection = useCallback((event) => {
         if (gameOver) {
