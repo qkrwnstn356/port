@@ -4,6 +4,7 @@ import {useState, useEffect} from 'react'
 // import Skills from './Skills';
 import Bomb from '../game/Bomb';
 import Worms from '../game/Worms';
+import PlatFormer from '../game/PlatFormer'; 
 import styled from 'styled-components';
 // import { gsap } from "gsap";
 // import {skills, projectList} from '../data';
@@ -161,11 +162,17 @@ const Main = () => {
             <span className="icon">🐛</span>
             <span className="label">지렁이 게임</span>
         </IconButton>
+        <IconButton onClick={() => handleIconClick('platformer')}>
+            <span className="icon">🎮</span>
+            <span className="label">PlatFormer</span>
+        </IconButton>
 
         {isPopupOpen && (
               <div className="popup">
                   <button className="close-button" onClick={closePopup}>X</button>
-                  {activeComponent === 'bomb' ? <Bomb /> : <Worms />}
+                  {activeComponent === 'bomb' ? <Bomb /> : 
+                   activeComponent === 'worms' ? <Worms /> : 
+                   activeComponent === 'platformer' ? <PlatFormer /> : null}
               </div>
           )}
 
