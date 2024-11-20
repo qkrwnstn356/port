@@ -222,7 +222,7 @@ const Worms = () => {
             />
             {!isPlaying && !gameOver && (
                 <div style={{ marginTop: '20px' }}>
-                    Press Space to Start
+                    Press Space to Startz
                 </div>
             )}
         </div>
