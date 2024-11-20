@@ -144,7 +144,7 @@ const Worms = () => {
             if (event.code === 'Space') {
                 resetGame();
                 setTimeout(() => {
-                    setIsPlaying(true);
+                    setIsPlaying(true); // 게임 시작
                 }, 100);
             }
             return;
@@ -152,7 +152,7 @@ const Worms = () => {
     
         if (!isPlaying) {
             if (event.code === 'Space') {
-                setIsPlaying(true);
+                setIsPlaying(true); // 게임 시작
                 return;
             }
         }
@@ -208,22 +208,22 @@ const Worms = () => {
 
     return (
         <div style={{ textAlign: 'center', padding: '20px' }}>
-            <canvas 
-                ref={canvasRef} 
-                width={canvasWidth} 
-                height={canvasHeight}
-                style={{ 
-                    border: '2px solid #333',
-                    borderRadius: '5px',
-                    boxShadow: '0 0 10px rgba(0,0,0,0.1)'
-                }}
-            />
-            {!isPlaying && !gameOver && (
-                <div style={{ marginTop: '20px' }}>
-                    Press Space to Startz
-                </div>
-            )}
-        </div>
+        <canvas 
+            ref={canvasRef} 
+            width={canvasWidth} 
+            height={canvasHeight}
+            style={{ 
+                border: '2px solid #333',
+                borderRadius: '5px',
+                boxShadow: '0 0 10px rgba(0,0,0,0.1)'
+            }}
+        />
+        {!isPlaying && !gameOver && (
+            <div style={{ marginTop: '20px' }}>
+                Press Space to Start
+            </div>
+        )}
+    </div>
     );
 };
 
