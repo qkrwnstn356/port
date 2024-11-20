@@ -207,7 +207,7 @@ const Worms = () => {
     }, [update, drawWorm, changeDirection, generateFood, food, isPlaying]);
 
     return (
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', position: 'relative' }}>
             <canvas 
                 ref={canvasRef} 
                 width={canvasWidth} 
@@ -218,7 +218,7 @@ const Worms = () => {
                     boxShadow: '0 0 10px rgba(0,0,0,0.1)'
                 }}
             />
-            {/* 게임 시작 안내 문구를 검은 배경 위에 표시 */}
+            {/* 게임 시작 안내 문구를 캔버스 정 중앙에 표시 */}
             {!isPlaying && !gameOver && (
                 <div style={{ 
                     position: 'absolute', 
