@@ -7,9 +7,11 @@ const Wrapper = styled.div`
         flex-direction: column;
         align-items: center;
         justify-content: center;
-        height: 100vh;
+        padding: 20px;  // height: 100vh 대신 padding 추가
         background-color: #f0f0f0;
         color: #000;
+        max-width: 800px;  // 최대 너비 설정
+        margin: 0 auto;    // 가운데 정렬
 
         .board {
             display: grid;
@@ -19,6 +21,7 @@ const Wrapper = styled.div`
             background: #999;
             padding: 0;
             user-select: none;
+            margin: 20px 0;  // 마진 추가
 
             .cell {
                 box-sizing: border-box;
@@ -49,13 +52,21 @@ const Wrapper = styled.div`
         }
 
         button {
-            margin: 20px 0;
+            margin: 10px 0;  // 마진 수정
             padding: 10px 20px;
             font-size: 16px;
             cursor: pointer;
         }
 
-        h1, h2 { margin: 10px 0; }
+        h1 { 
+            font-size: 24px;  // 제목 크기 조정
+            margin: 10px 0; 
+        }
+        
+        h2 { 
+            font-size: 18px;  // 부제목 크기 조정
+            margin: 10px 0; 
+        }
     }
 `;
 
@@ -68,8 +79,6 @@ const Bomb = () => {
     const [gameOver, setGameOver] = useState(false); // 게임 종료 상태
     const [minesLeft, setMinesLeft] = useState(minesCount); // 남은 지뢰 개수
     const [flagged, setFlagged] = useState(new Set()); // 깃발이 꽂힌 셀
-
-
 
     const initializeGame = useCallback(() => {
         const newBoard = Array(size).fill().map(() => Array(size).fill(0));
@@ -170,7 +179,6 @@ const Bomb = () => {
         setFlagged(newFlagged); // 깃발 상태 업데이트
     };
 
-
     const revealCell = (x, y, newRevealed) => {
         if (x < 0 || x >= size || y < 0 || y >= size || newRevealed[x][y]) return; // 범위 체크 및 이미 공개된 셀 확인
 
@@ -209,6 +217,7 @@ const Bomb = () => {
             setGameOver(true); // 게임 종료
         }
     };
+
     return (
         <Wrapper>
             <div className="App">
@@ -222,8 +231,8 @@ const Bomb = () => {
                                 <div
                                     key={y}
                                     className={`cell ${revealed[x][y] ? 'revealed' : ''} 
-                                              ${gameOver && cell === 'M' ? 'mine' : ''} 
-                                              ${flagged.has(`${x},${y}`) ? 'flagged' : ''}`}
+                                            ${gameOver && cell === 'M' ? 'mine' : ''} 
+                                            ${flagged.has(`${x},${y}`) ? 'flagged' : ''}`}
                                     onClick={(e) => handleClick(x, y, e)}
                                     onContextMenu={(e) => handleClick(x, y, e)}
                                 >
@@ -237,6 +246,6 @@ const Bomb = () => {
             </div>
         </Wrapper>
     );
-
 }
+
 export default Bomb;

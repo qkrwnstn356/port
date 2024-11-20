@@ -8,6 +8,7 @@ const Worms = () => {
     const [score, setScore] = useState(0);
     const [gameOver, setGameOver] = useState(false);
     const [isPlaying, setIsPlaying] = useState(false);
+    const [isPopupOpen, setIsPopupOpen] = useState(false);
     
     const canvasWidth = 800;
     const canvasHeight = 800;
@@ -16,6 +17,10 @@ const Worms = () => {
     const gameSpeedRef = useRef(100); // 초기 속도를 더 빠르게 설정
     const gameLoopRef = useRef(null);
     const lastKeyPressRef = useRef(null);
+
+    const closePopup = () => {
+        setIsPopupOpen(false);
+    };
 
     const resetGame = useCallback(() => {
         setWorm([{ x: 200, y: 200 }]);
@@ -137,7 +142,7 @@ const Worms = () => {
         }
     
         setWorm(newWorm);
-    }, [worm, direction, food, generateFood, gameOver, isPlaying, checkCollision]); // score 제거
+    }, [worm, direction, food, generateFood, gameOver, isPlaying, checkCollision]);
 
     const changeDirection = useCallback((event) => {
         if (gameOver) {
@@ -232,6 +237,34 @@ const Worms = () => {
                     textAlign: 'center'
                 }}>
                     Press Space to Start
+                </div>
+            )}
+            {/* 팝업 추가 */}
+            {isPopupOpen && (
+                <div className="popup" style={{
+                    position: 'fixed',
+                    top: '50%',
+                    left: '50%',
+                    transform: 'translate(-50%, -50%)',
+                    backgroundColor: '#fff',
+                    border: '2px solid #333',
+                    borderRadius: '10px',
+                    padding: '20px',
+                    boxShadow: '0 0 10px rgba(0,0,0,0.5)',
+                    zIndex: 1000
+                }}>
+                    <button onClick={closePopup} style={{
+                        position: 'absolute',
+                        top: '10px',
+                        right: '10px',
+                        background: 'none',
+                        border: 'none',
+                        cursor: 'pointer',
+                        fontSize: '16px',
+                        color: '#333'
+                    }}>닫기</button>
+                    {/* 팝업 내용 추가 가능 */}
+                    <p>여기에 팝업 내용을 추가하세요.</p>
                 </div>
             )}
         </div>
