@@ -265,7 +265,7 @@ const PlatFormer = () => {
             gameState.player.x = 50;
             gameState.player.y = 200;
             gameState.platforms = levels[1].platforms; // 초기 레벨 플랫폼 설정
-            eagles = Array.from({ length: 3 }, createEagle); // 독수리 재생성
+            eagles = Array.from({ length: 8 }, createEagle); // 독수리 재생성
         };
 
 
