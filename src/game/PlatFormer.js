@@ -321,17 +321,6 @@ const PlatFormer = () => {
             ctx.textAlign = 'center'; // 텍스트 중앙 정렬
             ctx.fillText(`현재 레벨: ${level}`, canvas.width / 2, 30); // 캔버스 중앙에 배치
         
-            // 게임 오버 메시지
-            if (gameState.levelComplete) {
-                ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
-                ctx.fillRect(0, 0, canvas.width, canvas.height);
-                ctx.fillStyle = '#fff';
-                ctx.font = '40px Arial';
-                ctx.textAlign = 'center';
-                ctx.fillText('게임 오버!', canvas.width / 2, canvas.height / 2 - 20);
-                ctx.font = '20px Arial';
-                ctx.fillText('R 키를 눌러서 재시작하세요.', canvas.width / 2, canvas.height / 2 + 20);
-            }
         };
 
         // 게임 루프
@@ -348,7 +337,7 @@ const PlatFormer = () => {
         
         // 이벤트 리스너 등록
         document.addEventListener('keydown', (e) => {
-            if (e.key === 'r' && gameState.levelComplete) {
+            if ((e.key === 'r' || e.key === 'ㄱ') && gameState.levelComplete) {
                 restartGame(); // R 키로 게임 재시작
             } else {
                 handleKeyDown(e); // 기존 키 이벤트 처리

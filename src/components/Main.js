@@ -163,8 +163,8 @@ const Main = () => {
             <span className="label">지렁이 게임</span>
         </IconButton>
         <IconButton onClick={() => handleIconClick('platformer')}>
-            <span className="icon">🕹️</span>
-            <span className="label">Plat</span>
+            <span className="icon">🦅</span>
+            <span className="label">독수리 피하기</span>
         </IconButton>
 
         {isPopupOpen && (
