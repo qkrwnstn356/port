@@ -221,20 +221,6 @@ const PlatFormer = () => {
             }
         };
 
-        // 독수리 상태 추가
-        const createEagle = () => ({
-            x: Math.random() * 1500,
-            y: Math.random() * 550, // Y 좌표를 550으로 제한하여 캔버스 내에서만 움직이도록 설정
-            width: 50,
-            height: 50,
-            speed: 2,
-            directionX: Math.random() < 0.5 ? 1 : -1, // 랜덤 X 방향
-            directionY: Math.random() < 0.5 ? 1 : -1  // 랜덤 Y 방향
-        });
-        
-        // 독수리 배열 생성
-        let eagles = Array.from({ length: 8 }, createEagle);
-
         // 독수리 업데이트 함수 추가
         const updateEagles = () => {
             eagles.forEach(eagle => {
@@ -253,11 +239,30 @@ const PlatFormer = () => {
 
         const checkEagleCollision = () => {
             eagles.forEach(eagle => {
-                if (checkCollision(gameState.player, eagle)) {
+                // 충돌 판정: 플레이어의 아래쪽 부분과 독수리의 위쪽 부분이 겹치는지 확인
+                if (
+                    gameState.player.x < eagle.x + eagle.width &&
+                    gameState.player.x + gameState.player.width > eagle.x &&
+                    gameState.player.y + gameState.player.height > eagle.y && // 플레이어의 아래쪽
+                    gameState.player.y < eagle.y + eagle.height // 플레이어의 위쪽이 독수리의 아래쪽보다 아래에 있어야 함
+                ) {
                     gameState.levelComplete = true; // 게임 오버
                 }
             });
         };
+        // 독수리 상태 추가
+        const createEagle = () => ({
+            x: Math.random() * 1500,
+            y: Math.random() * 550, // Y 좌표를 550으로 제한하여 캔버스 내에서만 움직이도록 설정
+            width: 40,
+            height: 0,
+            speed: 2,
+            directionX: Math.random() < 0.5 ? 1 : -1, // 랜덤 X 방향
+            directionY: Math.random() < 0.5 ? 1 : -1  // 랜덤 Y 방향
+        });
+        
+        // 독수리 배열 생성
+        let eagles = Array.from({ length: 8 }, createEagle);
 
         const restartGame = () => {
             gameState.levelComplete = false;
@@ -272,13 +277,33 @@ const PlatFormer = () => {
         // 게임 렌더링
         const render = () => {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-            eagles.forEach(eagle => {
-                ctx.font = '40px Arial'; // 독수리 크기 증가
-                ctx.fillText('🦅', eagle.x, eagle.y); // 독수리 이모지 그리기
+        
+            // 플랫폼 그리기
+            ctx.fillStyle = '#8B4513';
+            gameState.platforms.forEach(platform => {
+                if (platform.x + platform.width > gameState.camera.x && 
+                    platform.x < gameState.camera.x + canvas.width) {
+                    ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
+                }
             });
-
-            // 게임 오버 메시지
+        
+            // 플레이어 그리기
+            ctx.fillStyle = '#FF0000';
+            const bounceOffset = Math.sin(gameState.player.frame * Math.PI / 2) * 3;
+            const playerOffset = 20;
+            ctx.font = '30px Arial';
+            ctx.fillText('👨‍🚀',
+                gameState.player.x,
+                gameState.player.y + playerOffset - bounceOffset
+            );
+        
+            // 독수리 그리기 (플랫폼 위에 표시)
+            eagles.forEach(eagle => {
+                ctx.font = '40px Arial';
+                ctx.fillText('🦅', eagle.x, eagle.y);
+            });
+        
+            // 게임 오버 메시지 (가장 위에 표시)
             if (gameState.levelComplete) {
                 ctx.fillStyle = 'rgba(0, 0, 0, 0.7)';
                 ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -290,37 +315,11 @@ const PlatFormer = () => {
                 ctx.fillText('R 키를 눌러서 재시작하세요.', canvas.width / 2, canvas.height / 2 + 20);
             }
         
-            // 카메라 위치를 고려한 오브젝트 렌더링
-            ctx.save();
-            ctx.translate(-Math.floor(gameState.camera.x), 0);
-        
-            // 플랫폼 그리기
-            ctx.fillStyle = '#8B4513';
-            gameState.platforms.forEach(platform => {
-                // 화면에 보이는 플랫폼만 렌더링
-                if (platform.x + platform.width > gameState.camera.x && 
-                    platform.x < gameState.camera.x + canvas.width) {
-                    ctx.fillRect(platform.x, platform.y, platform.width, platform.height);
-                }
-            });
-        
-            // 플레이어 그리기
-            ctx.fillStyle = '#FF0000';
-            const bounceOffset = Math.sin(gameState.player.frame * Math.PI / 2) * 3;
-            const playerOffset = 20;
-            ctx.font = '30px Arial'; // 폰트 크기를 줄여서 플레이어를 작게 만듭니다.
-            ctx.fillText('👨‍🚀', // 귀여운 꼬마 이모지로 변경
-                gameState.player.x,
-                gameState.player.y + playerOffset - bounceOffset
-            );
-            ctx.restore();
-        
-            // UI는 카메라와 독립적으로 그리기
-            ctx.fillStyle = '#000'; // 텍스트 색상
+            // UI는 가장 마지막에 그리기
+            ctx.fillStyle = '#000';
             ctx.font = '20px Arial';
-            ctx.textAlign = 'center'; // 텍스트 중앙 정렬
-            ctx.fillText(`현재 레벨: ${level}`, canvas.width / 2, 30); // 캔버스 중앙에 배치
-        
+            ctx.textAlign = 'center';
+            ctx.fillText(`현재 레벨: ${level}`, canvas.width / 2, 30);
         };
 
         // 게임 루프
